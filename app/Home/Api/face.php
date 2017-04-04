@@ -5,7 +5,8 @@ require '../../../lib/functions.php';
 $c_url_data = [ 
     'api_key' => 'v7j0pw-2tWVhRv6_GA0zQGd-SgzFRe3W',
     'api_secret' => '5UsgXX43G6qd2Zz0L1OY-8e1LSeUgSws',
-    'image_url' => 'http://www.thedragonchina.com/Resume/zhangyusheng.jpg'
+    //'image_url' => 'http://www.thedragonchina.com/Resume/zhangyusheng.jpg'
+    'image_base64' => $_GET['image_base64']
 ];
 
 $c_url = 'https://api-cn.faceplusplus.com/facepp/v3/detect'; 
@@ -27,4 +28,4 @@ $c_url_data = [
 
 $result = curl($analyze_url, $c_url_data);
 
-echo $result;
+echo json_encode($result, true);
