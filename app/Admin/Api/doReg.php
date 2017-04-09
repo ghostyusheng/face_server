@@ -7,9 +7,18 @@ $username = $_REQUEST['username'];
 $password = $_REQUEST['password'];
 
 if ($username && $password) {
-    $res = $db->conn->query("insert into account(username,password) values('{$username}','{$password}')");
+    if ($res = $db->conn->query("select * from account where username='{$username}'")->fetch()) {
+        echo json_encode([
+            'status' => 'failed',
+            'msg' => 'username has existed'
+        ]);
+        die;
+    }
+
+    $password = md5($password . 'FACE');
+    $res = $db->conn->exec("insert into account(username,password) values('{$username}','{$password}')");
 } else {
-    die('username cant null');
+    die('username/password cant null');
 }
 
 
@@ -22,8 +31,4 @@ if ($res) {
     ];
 }
 
-$response = [
-    'status' => 'failed'
-];
-
-return json_encode($response);
+echo json_encode($response);
